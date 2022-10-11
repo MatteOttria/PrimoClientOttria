@@ -8,11 +8,15 @@ import java.net.*;
 public class App {
     public static void main( String[] args ) throws Exception
     {   
-        try(Socket socket = new Socket("localhost", 5001);){
+        try(Socket socket = new Socket("localhost", 1723);){
+            InputStreamReader streamReader = new InputStreamReader(socket.getInputStream());
+            BufferedReader bufferedReaderUsr = new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter printWriter =  new PrintWriter(socket.getOutputStream(),true);
             while (true) {
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
                 String str = bufferedReader.readLine();
-                System.out.println("Server: " + str);   
+                System.out.println(str);
+                printWriter.println(bufferedReaderUsr.readLine());
             }
         }catch (Exception e) {
             System.out.println(e);
