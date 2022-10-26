@@ -1,7 +1,5 @@
 package provaclientottria;
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.*;
@@ -13,8 +11,13 @@ public class App {
             BufferedReader bufferedReaderUsr = new BufferedReader(new InputStreamReader(System.in));
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter printWriter =  new PrintWriter(socket.getOutputStream(),true);
+            ServerReader serverReader = new ServerReader(socket);
+            new Thread(serverReader).start();
             while (true) {
                 String str = bufferedReader.readLine();
+                if(str == "null"){
+                    socket.close();
+                }
                 System.out.println(str);
                 printWriter.println(bufferedReaderUsr.readLine());
             }
