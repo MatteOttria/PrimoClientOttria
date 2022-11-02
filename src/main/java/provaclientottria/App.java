@@ -12,13 +12,8 @@ public class App {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter printWriter =  new PrintWriter(socket.getOutputStream(),true);
             ServerReader serverReader = new ServerReader(socket);
-            new Thread(serverReader).start();
+            serverReader.start();
             while (true) {
-                String str = bufferedReader.readLine();
-                if(str == "null"){
-                    socket.close();
-                }
-                System.out.println(str);
                 printWriter.println(bufferedReaderUsr.readLine());
             }
         }catch (Exception e) {

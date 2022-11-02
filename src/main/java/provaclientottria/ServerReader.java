@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.net.*;
 public class ServerReader extends Thread{
     Socket socket;
-
+    static String str;
     public ServerReader(Socket socket){
         this.socket = socket;
     }
@@ -15,11 +15,19 @@ public class ServerReader extends Thread{
             InputStreamReader streamReader = new InputStreamReader(socket.getInputStream());
             BufferedReader bufferedReader = new BufferedReader(streamReader);
             while (true) {
-                String str = bufferedReader.readLine();
+                str = bufferedReader.readLine();
+                getStr();
                 System.out.println(str);
+                if(str.equals("Client disconnected")){
+                    socket.close();
+                }
             }
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    static String getStr(){
+        return str;
     }
 }
